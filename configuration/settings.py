@@ -35,6 +35,16 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_extensions',
+
+    'rest_framework',
+
+    'account',
+    'order',
+    'payment',
+    'product',
+    'cart',
+
 ]
 
 MIDDLEWARE = [
@@ -47,7 +57,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'drf_testcase_study_project.urls'
+ROOT_URLCONF = 'configuration.urls'
 
 TEMPLATES = [
     {
