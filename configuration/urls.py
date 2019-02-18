@@ -14,23 +14,23 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from rest_framework.permissions import AllowAny
 
-api_info = openapi.Info(
-    title="Snippets API",
+swagger_info = openapi.Info(
+    title="DRF 스터디 프로젝트",
     default_version='v1',
     description="Test description",
-    terms_of_service="https://www.google.com/policies/terms/",
-    contact=openapi.Contact(email="contact@snippets.local"),
-    license=openapi.License(name="BSD License"),
+    terms_of_service="https://github.com/KimSoungRyoul/drf_unitteset_study_project",
+    contact=openapi.Contact(email="KimSoungRyoul@gmail.com"),
+    license=openapi.License(name="MIT License"),
 )
 
 schema_view = get_schema_view(
-    api_info,
-    validators=['flex', 'ssv'],
+    swagger_info,
+    validators=['flex'],
     public=True,
     permission_classes=(AllowAny,)
 )
@@ -38,6 +38,11 @@ schema_view = get_schema_view(
 urlpatterns = [
     path('admin/', admin.site.urls),
 
+    path(r'api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+
     path('swagger<str:format>', schema_view.without_ui(cache_timeout=0), name='schema-json'),
-    path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+    path('api/doc/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+
+    path('api/v1/account/', include('account.urls')),
+
 ]

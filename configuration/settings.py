@@ -13,10 +13,11 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+from rest_framework.reverse import reverse_lazy
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
+CORS_ORIGIN_ALLOW_ALL = True
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'o^27ayj_ncafa-adfsx)l%-+d^qvo3o7)&xq!4+gcs%u+trsq='
@@ -38,6 +39,7 @@ INSTALLED_APPS = [
     'django_extensions',
 
     'rest_framework',
+    'drf_yasg',
 
     'account',
     'order',
@@ -58,6 +60,26 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'configuration.urls'
+
+LOGIN_URL = 'rest_framework:login'
+LOGOUT_URL = 'rest_framework:logout'
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.SessionAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',)
+}
+
+# drf-yasg
+SWAGGER_SETTINGS = {
+    'PERSIST_AUTH': True,
+    'REFETCH_SCHEMA_WITH_AUTH': True,
+    'REFETCH_SCHEMA_ON_LOGOUT': True,
+
+    'DEFAULT_INFO': 'configuration.urls.swagger_info',
+}
 
 TEMPLATES = [
     {
@@ -123,3 +145,20 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+        }
+    },
+    'loggers': {
+        'django.db.backends': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+        },
+    }
+}
